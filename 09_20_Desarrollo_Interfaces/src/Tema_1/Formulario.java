@@ -29,6 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileSystemView;
@@ -47,6 +49,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import Tema_2.MiBotonGuardar;
 
 public class Formulario extends JFrame implements ActionListener{
 
@@ -70,7 +73,7 @@ public class Formulario extends JFrame implements ActionListener{
 	private JLabel lblNuevaEntrada;
 	private JLabel index_count;
 	private String ruta;
-
+	private MiBotonGuardar btnGuardado;
 	/**
 	 * Launch the application.
 	 */
@@ -99,6 +102,8 @@ public class Formulario extends JFrame implements ActionListener{
 		checks = new ArrayList<JCheckBox>();
 		radio = new ArrayList<JRadioButton>();
 		
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 432, 350);
 		contentPane = new JPanel();
@@ -106,6 +111,15 @@ public class Formulario extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setResizable(false);
+		
+		btnGuardado = new MiBotonGuardar();
+		btnGuardado.setForeground(Color.RED);
+		btnGuardado.setText("");
+		btnGuardado.setBounds(40, 247, 62, 49);
+		btnGuardado.setActionCommand("GUARDAR");
+		btnGuardado.addActionListener(this);
+		contentPane.add(btnGuardado);
+		btnGuardado.setVisible(false);
 		
 		JLabel lblNewLabel = new JLabel("Nombre:");
 		lblNewLabel.setBounds(12, 35, 62, 14);
@@ -117,7 +131,10 @@ public class Formulario extends JFrame implements ActionListener{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				textField.setText(textField.getText().toUpperCase()); 
-}
+				btnGuardado.setVisible(true);
+				btnGuardado.setEnabled(true);
+
+			}
 		});
 		textField.setToolTipText("");
 		textField.setBounds(93, 32, 180, 20);
@@ -133,8 +150,11 @@ public class Formulario extends JFrame implements ActionListener{
 		textField_1.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				textField_1.setText(textField_1.getText().toUpperCase()); 
-}
+				textField_1.setText(textField_1.getText().toUpperCase());
+				btnGuardado.setVisible(true);
+				btnGuardado.setEnabled(true);
+
+			}
 		});
 		textField_1.setColumns(10);
 		textField_1.setBounds(93, 63, 180, 20);
@@ -230,7 +250,6 @@ public class Formulario extends JFrame implements ActionListener{
 		btnSiguiente.addActionListener(this);
 		
 		contentPane.add(btnSiguiente);
-
 		
 		btnAnterior = new JButton("\uD83E\uDC78");
 		btnAnterior.setBounds(93, 247, 97, 25);
@@ -252,13 +271,11 @@ public class Formulario extends JFrame implements ActionListener{
 		mntmInsertar.addActionListener(this);
 		mnMen.add(mntmInsertar);
 
-		
 		JMenuItem mntmAbrir = new JMenuItem("Abrir archivo");
 		mntmAbrir.setActionCommand("Abrir");
 		mntmAbrir.addActionListener(this);
 		mnMen.add(mntmAbrir);
 
-		
 		JMenuItem mntmGuardar = new JMenuItem("Guardar");
 		mntmGuardar.setActionCommand("GUARDAR");
 		mntmGuardar.addActionListener(this);
@@ -283,18 +300,41 @@ public class Formulario extends JFrame implements ActionListener{
 		index_count.setHorizontalAlignment(SwingConstants.CENTER);
 		index_count.setBounds(164, 286, 86, 16);
 		contentPane.add(index_count);
-		
+				
 		btnAnterior.setVisible(false);
 		btnSiguiente.setVisible(false);
 		
 		comboBox.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(comboBox.getSelectedItem().toString() == "España") {
-		    		comboBox_1.setModel(new DefaultComboBoxModel(comunidades_esp));					
+		    		comboBox_1.setModel(new DefaultComboBoxModel(comunidades_esp));
+					btnGuardado.setVisible(true);
+					btnGuardado.setEnabled(true);
 		    	}else {
 		    		comboBox_1.setModel(new DefaultComboBoxModel(comunidades_por));
+					btnGuardado.setVisible(true);
+					btnGuardado.setEnabled(true);
+
+
 		    	}
 		    }
+		});
+		
+		radioButton.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				btnGuardado.setVisible(true);
+				btnGuardado.setEnabled(true);
+
+			}
+		});
+		rdbtnNewRadioButton.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				btnGuardado.setVisible(true);
+				btnGuardado.setEnabled(true);
+
+			}
 		});
 	}
 	public void reset() {
@@ -335,6 +375,7 @@ public class Formulario extends JFrame implements ActionListener{
 			index_count.setVisible(false);
 			btnLimpiar.setVisible(true);
 			reset();
+			btnGuardado.setEnabled(false);
 			break;
 		case "CARGAR":
 			unlock(false);
@@ -344,6 +385,8 @@ public class Formulario extends JFrame implements ActionListener{
 			btnSiguiente.setVisible(true);
 			btnLimpiar.setVisible(false);
 			index_count.setVisible(true);
+			btnGuardado.setVisible(false);
+
 			personas = cargarPersonasDeArchivo();
 			setIndexCount();
 			personasDeLista();
@@ -383,6 +426,8 @@ public class Formulario extends JFrame implements ActionListener{
 		btnSiguiente.setVisible(false);
 		index_count.setVisible(false);
 		btnLimpiar.setVisible(true);
+		btnGuardado.setVisible(false);
+
 	}
 
 	public void setIndexCount() {
@@ -440,6 +485,8 @@ public class Formulario extends JFrame implements ActionListener{
 				}
 			}
 		}
+		btnGuardado.setVisible(false);
+
 	}
 	
 	public void agregarPersona(Object persona) {
@@ -516,6 +563,8 @@ public class Formulario extends JFrame implements ActionListener{
 		for(Persona_form per : personas) {
 			System.out.println(per.toString());
 		}
+		btnGuardado.setVisible(false);
+
 		return personas;
 	}
 	private void abrir() {
@@ -523,7 +572,6 @@ public class Formulario extends JFrame implements ActionListener{
 		// Open the save dialog 
 		if(j.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			ruta = j.getSelectedFile().getAbsolutePath();
-
 		}		
 	}
 
