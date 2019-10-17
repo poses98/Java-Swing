@@ -144,7 +144,7 @@ public class TicTacToe implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(!pause) {
-			
+			//	Switch del boton
 			switch(e.getActionCommand()) {
 				case "0,0":
 					juego(0,0);
