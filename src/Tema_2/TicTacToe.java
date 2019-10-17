@@ -58,7 +58,7 @@ public class TicTacToe implements ActionListener{
 		tableroBotones = new JButton[3][3];
 		
 		winner = 0;
-		
+		//	Botones del tablero
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 431, 334);
 		frame.getContentPane().add(panel);
