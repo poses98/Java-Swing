@@ -108,7 +108,7 @@ public class TicTacToe implements ActionListener{
 		boton_9.setActionCommand("2,2");
 		boton_9.addActionListener(this);
 		panel.add(boton_9);
-		
+		//	Matriz de botones
 		tableroBotones[0][0] = boton_1;
 		tableroBotones[0][1] = boton_2;
 		tableroBotones[0][2] = boton_3;
