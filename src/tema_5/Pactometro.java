@@ -6,6 +6,7 @@
 
 package tema_5;
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -22,6 +23,12 @@ import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class Pactometro implements ActionListener{
 
@@ -72,12 +79,12 @@ public class Pactometro implements ActionListener{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 381, 321);
+		frame.setBounds(100, 100, 381, 354);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(6, 6, 372, 191);
+		panel.setBounds(0, 32, 365, 191);
 		
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
@@ -278,7 +285,7 @@ rbildu.setEditable(false);
 		panel.add(rprc);
 		
 		JButton btnReiniciar = new JButton("REINICIAR");
-		btnReiniciar.setBounds(123, 202, 117, 29);
+		btnReiniciar.setBounds(121, 235, 117, 29);
 		btnReiniciar.setActionCommand("reinicio");
 		btnReiniciar.addActionListener(this);
 		frame.getContentPane().add(btnReiniciar);
@@ -286,8 +293,30 @@ rbildu.setEditable(false);
 
 		
 		progress = new MiProgressBar();
-		progress.setBounds(10, 242, 345, 29);
+		progress.setBounds(10, 275, 345, 29);
 		frame.getContentPane().add(progress);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 365, 21);
+		frame.getContentPane().add(menuBar);
+		
+		JMenu mnAcciones = new JMenu("Acciones");
+		menuBar.add(mnAcciones);
+		
+		JMenuItem mntmReiniciar = new JMenuItem("Reiniciar");
+		mntmReiniciar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+		mntmReiniciar.setActionCommand("reinicio");
+		mntmReiniciar.addActionListener(this);
+		mnAcciones.add(mntmReiniciar);
+		
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+		
+		JMenuItem mntmAyuda = new JMenuItem("Ayuda");
+		mntmAyuda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
+		mntmAyuda.setActionCommand("help");
+		mntmAyuda.addActionListener(this);
+		mnHelp.add(mntmAyuda);
 		
 		
 		Setup();
@@ -304,6 +333,8 @@ rbildu.setEditable(false);
 		case "reinicio":
 			Reiniciar();
 			break;
+		case "help":
+			Help();
 		default:
 			for(Component comp : panel.getComponents()) {
 				if(comp instanceof JCheckBox) {
@@ -314,6 +345,13 @@ rbildu.setEditable(false);
 			}
 		}	
 	}
+	/**
+	 * Muestra la ventana de ayuda para el usuario
+	 */
+	private void Help() {
+		OpenCHM.open("tema_5/pactometro.chm");
+	}
+
 	/**
 	 * Inicia el pactómetro colocando listeners y centrando el texto
 	 */
